@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinmay Maheshwari</title>
+  <!--
+    A polished faculty page featuring collapsible abstracts for each publication
+    and an upgraded portrait section.  Each paper listing now uses the
+    <details>/<summary> HTML elements to reveal the abstract on demand.  The
+    portrait image has refined styling with a subtle shadow and border to
+    convey a more professional look.  Adjust variables in the :root section
+    to further customise the colour scheme.
+  -->
+  <meta name="description" content="Homepage of Chinmay Maheshwari, Assistant Professor at Johns Hopkins University.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    :root {
+      --primary-color: #134e9b;
+      --secondary-color: #dce7f8;
+      --background-color: #f5f7fa;
+      --text-color: #1f2937;
+      --heading-color: #0f172a;
+      --nav-background: #f5f7fa;
+      --nav-text: #134e9b;
+      --nav-hover: #0c376d;
+      --section-bg-alt: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      margin: 0 0 1rem 0;
+      font-weight: 600;
+      color: var(--heading-color);
+    }
+    h1 { font-size: 2.6rem; }
+    h2 { font-size: 1.8rem; border-bottom: 2px solid var(--secondary-color); padding-bottom: 0.3rem; }
+    h3 { font-size: 1.4rem; }
+    p { margin: 0 0 1rem 0; }
+    a { color: var(--primary-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Hero and portrait styling */
+    .hero {
+      /* Use a multi‑stop gradient for a richer background */
+      background: linear-gradient(120deg, #134e9b 0%, #557ebf 50%, #a8caff 100%);
+      color: #ffffff;
+      padding: 3rem 1rem 4rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .hero img {
+      width: 320px;
+      height: 320px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 8px;
+      border: 4px solid rgba(255,255,255,0.8);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hero-text {
+      flex: 1 1 300px;
+    }
+    .hero-text h1 {
+      margin-top: 0;
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: #ffffff; /* Ensure the name is visible on the dark gradient */
+    }
+    .hero-text p {
+      margin: 0.4rem 0;
+      font-size: 1rem;
+      color: #f1f5f9;
+    }
+    .hero-text a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--nav-background);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav li { margin: 0; }
+    nav a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: var(--nav-text);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    nav a:hover, nav a:focus { color: var(--nav-hover); }
+    /* Dropdown menu styling for Publications tab */
+    nav li.dropdown {
+      position: relative;
+    }
+    nav li.dropdown .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: var(--nav-background);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      z-index: 1000;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      min-width: 180px;
+    }
+    nav li.dropdown:hover .dropdown-menu,
+    nav li.dropdown:focus-within .dropdown-menu {
+      display: block;
+    }
+    nav li.dropdown .dropdown-menu li a {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: var(--nav-text);
+      white-space: nowrap;
+    }
+    nav li.dropdown .dropdown-menu li a:hover,
+    nav li.dropdown .dropdown-menu li a:focus {
+      background-color: var(--secondary-color);
+      color: var(--nav-hover);
+    }
+
+    /* Sections */
+    section {
+      padding: 4rem 1rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    section:nth-of-type(even) { background-color: var(--section-bg-alt); }
+    .section-content { margin-top: 1rem; }
+    ul, ol { padding-left: 1.5rem; }
+    li { margin-bottom: 0.6rem; }
+
+    /* Publications styling with dropdowns */
+    .publications-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .publication-item {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .publication-item details {
+      cursor: pointer;
+    }
+    .publication-item summary {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .pub-title {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    /* Remove default arrow marker in Chrome/Firefox */
+    .publication-item summary::-webkit-details-marker { display: none; }
+    .publication-item summary::marker { font-size: 0; }
+    /* Add a custom arrow indicator */
+    .publication-item summary::after {
+      content: '\25BC';
+      font-size: 0.7rem;
+      margin-left: auto;
+      transition: transform 0.3s;
+    }
+    .publication-item details[open] summary::after {
+      transform: rotate(-180deg);
+    }
+    .publication-item .pub-desc {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      margin-top: 0.5rem;
+    }
+    .publication-item .abstract {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed #d1d5db;
+      font-size: 0.9rem;
+    }
+    .announcement-blink {
+      color: red;
+      animation: blink 1s step-start infinite;
+      font-weight: bold;
+    }
+
+    @keyframes blink {
+      50% 
+    }
+    /* Footer */
+    footer {
+      padding: 2rem 1rem;
+      text-align: center;
+      background: var(--section-bg-alt);
+      font-size: 0.85rem;
+      color: #666666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero section -->
+  <header class="hero" id="home">
+    <div class="hero-content">
+      <img src="profile.png" alt="Chinmay Maheshwari">
+      <div class="hero-text">
+        <h1>Chinmay Maheshwari</h1>
+        <p>Email: chinmay_maheshwari@jhu.edu</p>
+        <p>Office: S619, Wyman Park Building, Baltimore, MD</p>
+      </div>
+    </div>
+  </header>
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <!-- Publications navigation item with dropdown -->
+      <li class="dropdown">
+        <a href="#publications">Publications</a>
+        <ul class="dropdown-menu">
+          <li><a href="#journal">Journal</a></li>
+          <li><a href="#conference">Conference</a></li>
+          <li><a href="#under-review">Under review</a></li>
+        </ul>
+      </li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Me</h2>
+    <div class="section-content">
+      <p>I am an Assistant Professor in the Department of Electrical and Computer Engineering at Johns Hopkins University. I am also a member of the Data Science and AI Institute. I obtained my PhD in Electrical Engineering and Computer Sciences from the University of California, Berkeley in 2025, where I was advised by <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/sastry.html">Prof.&nbsp;Shankar&nbsp;Sastry</a>. I completed my undergraduate studies (B.Tech and M.Tech) at the Indian Institute of Technology (IIT) Bombay in 2019, where I received the Institute Academic Medal. I was selected as an <a href="https://cps-vo.org/group/CPSRisingStarsWorkshop25">NSF CPS Rising Star in 2025</a> and received the <a href="https://www2.eecs.berkeley.edu/Students/Awards/146/">Lotfi&nbsp;A.&nbsp;Zadeh Prize</a> in 2025.</p>
+      <h3 class="announcement-blink">Announcements</h3>
+      <ul>
+        <li><strong>Seminar series:</strong> We organize a weekly seminar series on Learning‑Enabled Multi‑Agent Systems (LEMAS). This series brings together researchers working at the forefront of learning and incentive design in multi‑agent systems. Talks occur both in person and livestreamed over Zoom. If you are interested in joining the email list, please sign up on the <a href="https://sites.google.com/berkeley.edu/lemas-seminar">seminar website</a>.</li>
+        <li><strong>Prospective PhD students:</strong> I will be recruiting PhD students for Spring and Fall&nbsp;2026. I am looking for motivated students with strong mathematical backgrounds and programming skills who are interested in the theoretical and algorithmic foundations of learning and incentive design in dynamic multi‑agent autonomous systems with applications in domains such as mobility, autonomous robotics and energy systems. If you are interested, please reach out with a brief description of your background and research interests, along with a copy of your CV and transcript.</li>
+        <li><strong>Existing JHU students:</strong> If you are a current student at Johns Hopkins University and are interested in collaborating, advising or co‑advising opportunities, please contact me.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Research Section -->
+  <section id="research">
+    <h2>Research Interests</h2>
+    <div class="section-content">
+      <p>My research develops novel theoretical and algorithmic frameworks to design and analyze interactions between strategic autonomous agents with one another and humans in domains such as mobility (air and road), multi‑robot systems and energy systems. Grounded in tools from AI, systems theory, optimization and economics, my work aims to build efficient, equitable and safe autonomous technologies for multi‑agent systems. There are three main themes in my research:</p>
+      <ol>
+        <li><strong>Decentralized Learning in Multi‑agent Systems:</strong> Developing decentralized learning rules for strategic agents in dynamic, uncertain and resource‑constrained multi‑agent environments, with guarantees on convergence and performance.</li>
+        <li><strong>Real‑Time Multi‑Agent Decision‑Making:</strong> Creating algorithms for provably efficient, safe and robust decision‑making in competitive environments, especially in real time.</li>
+        <li><strong>Adaptive Incentives and Markets:</strong> Designing adaptive incentives and market mechanisms, under limited information about agents’ preferences and learning algorithms, to align strategic agent behavior with societal objectives such as efficiency, equity and safety.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Publications Section -->
+  <section id="publications">
+    <h2> Publications</h2>
+    <div class="section-content">
+      <p>A complete list of my publications is included below. You may also visit my <a href="https://scholar.google.com/citations?hl=en&user=8GDPQboAAAAJ&view_op=list_works&sortby=pubdate">Google&nbsp;Scholar profile</a>.</p>
+      <!-- Publication filter UI -->
+      <div class="publication-filter">
+        <label for="pub-filter"><strong>Filter publications:</strong></label>
+        <select id="pub-filter">
+          <option value="all">All</option>
+          <option value="under-review">Under&nbsp;review</option>
+          <option value="journal">Journal</option>
+          <option value="conference">Conference</option>
+        </select>
+      </div>
+
+      <!-- Under‑review journal publications -->
+      <div class="publication-section under-review" id="under-review">
+        <h3>Under review</h3>
+        <ul class="publications-list">
+        <!-- Journal 1 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">EXOTIC: An Exact, Optimistic, Tree-Based Algorithm for Min-Max Optimization</span>
+              <span class="pub-desc">Co‑authored with Chinmay&nbsp;Pimpalkhare and Debasish&nbsp;Chatterjee.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://arxiv.org/pdf/2508.12479" target="_blank" rel="noopener">View paper</a></p>
+              <p>Min–max optimization arise in many domains such as game theory, adversarial machine learning, robust optimization, control, and signal processing. In convex–concave min-max optimization, gradient-based methods are well understood and enjoy strong guarantees. However, in absence of convexity or concavity, existing approaches study convergence to an approximate saddle point or first-order stationary points, which may be arbitrarily far from global optima.
+
+In this work, we present an algorithmic apparatus for computing globally optimal solutions in convex--non-concave and non-convex--concave min-max optimization.
+For convex--non-concave min-max problems, we employ a reformulation that transforms it into a non-concave--convex max-min optimization problem with suitably
+defined feasible sets and objective function; the new form can be viewed as a generalization of Sion’s minimax theorem to convex–non-concave min-max optimization. 
+Next, we introduce EXOTIC --- an Exact, Optimistic, Tree-based algorithm for solving the reformulated max–min problem. EXOTIC employs an iterative convex optimization solver to (approximately) solve the inner minimization and a hierarchical tree search for the outer maximization to optimistically select promising regions to search based on the approximate solution returned by convex optimization solver. We establish an upper bound on its optimality gap as a function of the number of calls to the inner solver, the solver’s convergence rate, and additional problem-dependent parameters. Both our algorithmic apparatus along with its accompanying theoretical analysis can also be applied for non-convex--concave min-max optimization. 
+
+In addition, we propose a class of benchmark convex–non-concave min–max problems along with their analytical global solutions, providing a testbed for evaluating algorithms for min-max optimization. Empirically, EXOTIC outperforms gradient-based methods on this benchmark as well as on existing numerical benchmark problems from the literature. Finally, we demonstrate the utility of EXOTIC by computing security strategies in multi-player games with three or more players--a computationally challenging task that, to our knowledge, no prior method solves exactly.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 2 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Congestion Pricing for Efficiency and Equity: Theory and Applications to the San Francisco Bay Area
+</span>
+              <span class="pub-desc">Co‑authored with Kshitij&nbsp;Kulkarni, Druv&nbsp;Pai, Rachel&nbsp;Yang, Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://arxiv.org/pdf/2401.16844" target="_blank" rel="noopener">View paper</a></p>
+              <p>Congestion pricing, while adopted by many cities to alleviate traffic congestion, raises concerns about widening socioeconomic disparities due to its disproportionate impact on low-income travelers. We address this concern by proposing a new class of congestion pricing schemes that not only minimize total travel time, but also incorporate an equity objective, reducing disparities in the relative change in travel costs across populations with different incomes, following the implementation of tolls. Our analysis builds on a congestion game model with heterogeneous traveler populations. We present four pricing schemes that account for practical considerations, such as the ability to charge differentiated tolls to various traveler populations and the option to toll all or only a subset of edges in the network. We evaluate our pricing schemes in the calibrated freeway network of the San Francisco Bay Area. We demonstrate that the proposed congestion pricing schemes improve both the total travel time and the equity objective compared to the current pricing scheme.
+Our results further show that pricing schemes charging differentiated prices to traveler populations with varying value-of-time lead to a more equitable distribution of travel costs compared to those that charge a homogeneous price to all.</p>
+            </div>
+          </details>
+        </li>
+        </ul>
+      </div>
+
+      <!-- Journal publications -->
+      <div class="publication-section journal" id="journal">
+        <h3>Journal publications</h3>
+        <ul class="publications-list">
+        <!-- Journal 1 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Adaptive Incentive Design with Learning Agents</span>
+              <span class="pub-desc">IEEE Transactions on Automatic Control (conditionally accepted), 2025.<br>Co‑authored with Kshitij&nbsp;Kulkarni, Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://arxiv.org/abs/2405.16716" target="_blank" rel="noopener">View paper</a></p>
+              <p>We propose an adaptive incentive mechanism that learns the optimal incentives in environments where players continuously update their strategies. Our mechanism updates incentives based on each player's externality, defined as the difference between the player's marginal cost and the operator's marginal cost at each time step. The proposed mechanism updates the incentives on a slower timescale compared to the players' learning dynamics, resulting in a two-timescale coupled dynamical system. Notably, this mechanism is agnostic to the specific learning dynamics used by players to update their strategies. We show that any fixed point of this adaptive incentive mechanism corresponds to the optimal incentive mechanism, ensuring that the Nash equilibrium coincides with the socially optimal strategy. Additionally, we provide sufficient conditions under which the adaptive mechanism converges to a fixed point. Our results apply to both atomic and non-atomic games. To demonstrate the effectiveness of our proposed mechanism, we verify the convergence conditions in two practically relevant classes of games: atomic aggregative games and non-atomic routing games.
+</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 2 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Markov&nbsp;&alpha;‑Potential Games</span>
+              <span class="pub-desc">IEEE Transactions on Automatic Control (to appear), 2026.<br>Co‑authored with Xin&nbsp;Guo, Xinyu&nbsp;Li, Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/11080281" target="_blank" rel="noopener">View paper</a></p>
+              <p>We propose a new framework of Markov &alpha;-potential games to study Markov games. We show that any Markov game with finite-state and finite-action is a Markov &alpha;-potential game, and establish the existence of an associated α-potential function. Any optimizer of an &alpha;-potential function is shown to be an &alpha;-stationary Nash equilibrium. We study two important classes of practically significant Markov games, Markov congestion games and the perturbed Markov team games, via the framework of Markov &alpha;-potential games, with explicit characterization of an upper bound for α and its relation to game parameters. Additionally, we provide a semi-infinite linear programming based formulation to obtain an upper bound for α for any Markov game. Furthermore, we study two equilibrium approximation algorithms, namely the projected gradient-ascent algorithm and the sequential maximum improvement algorithm, along with their Nash regret analysis, and corroborate the results with numerical experiments.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 3 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Independent and Decentralized Learning in Markov Potential Games</span>
+              <span class="pub-desc">To appear in IEEE Transactions on Automatic Control, 2025.<br>Co‑authored with Manxi&nbsp;Wu, Druv&nbsp;Pai and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/abstract/document/11023106" target="_blank" rel="noopener">View paper</a></p>
+              <p>We study a multi-agent reinforcement learning dynamics, and analyze its asymptotic behavior in infinite-horizon discounted Markov potential games. We focus on the independent and decentralized setting, where players do not know the game parameters, and cannot communicate or coordinate. In each stage, players update their estimate of Q-function that evaluates their total contingent payoff based on the realized one-stage reward in an asynchronous manner. Then, players independently update their policies by incorporating an optimal one-stage deviation strategy based on the estimated Q-function. Inspired by the actor-critic algorithm in single-agent reinforcement learning, a key feature of our learning dynamics is that agents update their Q-function estimates at a faster timescale than the policies. Leveraging tools from two-timescale asynchronous stochastic approximation theory, we characterize the convergent set of learning dynamics</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 4 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Privacy Preserving Mechanisms for Coordinating Airspace Usage in Advanced Air Mobility</span>
+              <span class="pub-desc">ACM Journal on Autonomous Transportation Systems, 2025.<br>Co‑authored with Maria&nbsp;Mendoza, Victoria&nbsp;Tuck, Pan‑Yang&nbsp;Su, Victor&nbsp;Qin, Sanjit&nbsp;Seshia, Hamsa&nbsp;Balakrishnan and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://dl.acm.org/doi/10.1145/3732290" target="_blank" rel="noopener">View paper</a></p>
+              <p>Advanced Air Mobility (AAM) operations are expected to transform air transportation while challenging current air traffic management practices. By introducing a novel market-based mechanism, we address the problem of on-demand allocation of capacity-constrained airspace to AAM vehicles with heterogeneous and private valuations. We model airspace and air infrastructure as a collection of contiguous regions (or sectors) with constraints on the number of vehicles that simultaneously enter, stay, or exit each region. Vehicles request access to airspace with trajectories spanning multiple regions at different times. We use the graph structure of our airspace model to formulate the allocation problem as a path allocation problem on a time-extended graph. To ensure that the cost information of AAM vehicles remains private, we introduce a novel mechanism that allocates each vehicle a budget of “air-credits” (an artificial currency) and anonymously charges prices for traversing the edges of the time-extended graph. We seek to compute a competitive equilibrium that ensures that: (i) capacity constraints are satisfied, (ii) a strictly positive resource price implies that the sector capacity is fully utilized, and (iii) the allocation is integral and optimal for each AAM vehicle given current prices, without requiring access to individual vehicle utilities. However, a competitive equilibrium with integral allocations may not always exist. We provide sufficient conditions for the existence and computation of a fractional-competitive equilibrium, where allocations can be fractional. Building on these theoretical insights, we propose a distributed, iterative, two-step algorithm that: (1) computes a fractional competitive equilibrium, and (2) derives an integral allocation from this equilibrium. We validate the effectiveness of our approach in allocating trajectories for the emerging urban air mobility service of drone delivery.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Convergence of Decentralized Actor–Critic Algorithm in General‑Sum Markov Games</span>
+              <span class="pub-desc">IEEE Control Systems Letters and American Control Conference, 2025.<br>Co‑authored with Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/10772192" target="_blank" rel="noopener">View paper</a></p>
+              <p>Markov games provide a powerful framework for modeling strategic multi-agent interactions in dynamic environments. Traditionally, convergence properties of decentralized learning algorithms in these settings have been established only for special cases, such as Markov zero-sum and potential games, which do not fully capture real-world interactions. In this letter, we address this gap by studying the asymptotic properties of learning algorithms in general-sum Markov games. In particular, we focus on a decentralized algorithm where each agent adopts an actor-critic learning dynamic with asynchronous step sizes. This decentralized approach enables agents to operate independently, without requiring knowledge of others’ strategies or payoffs. We introduce the concept of a Markov Near-Potential Function (MNPF) and demonstrate that it serves as an approximate Lyapunov function for the policy updates in the decentralized learning dynamics, which allows us to characterize the convergent set of strategies. We further strengthen our result under specific regularity conditions and with finite Nash equilibria.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 6 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Stabilization under round-robin scheduling of control inputs in nonlinear systems</span>
+              <span class="pub-desc">Automatica, 2021.<br>Co‑authored with Sukumar&nbsp;Srikant and Debasish&nbsp;Chatterjee.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://www.sciencedirect.com/science/article/pii/S0005109821004350" target="_blank" rel="noopener">View paper</a></p>
+              <p>We study stability of multivariable control-affine nonlinear systems under sparsification of feedback controllers. Given a stabilizing feedback, sparsification in our context refers to the scheduling of the individual control inputs one at a time in rapid periodic sweeps over the set of control inputs, which corresponds to round-robin scheduling. We prove that if a locally asymptotically stabilizing feedback controller is sparsified via the round-robin scheme and each control action is scaled appropriately, then the corresponding equilibrium of the resulting system is stabilized when the scheduling is sufficiently fast; under mild additional conditions, local asymptotic stabilization of the corresponding equilibrium can also be guaranteed. Moreover, the basin of attraction for the equilibrium of scheduled system also remains the same as the original system under sufficiently fast switching Our technical tools are derived from optimal control theory, and our results also contribute to the literature on the stability of switched systems in the fast switching regime. Illustrative numerical examples depicting several subtle features of our results are included.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 6 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Optimal Multiplexing of Discrete-Time Constrained Control Systems on Matrix Lie Groups</span>
+              <span class="pub-desc">IEEE Transactions on Automatic Control, 2020.<br>Co‑authored with Sukumar&nbsp;Srikant and Debasish&nbsp;Chatterjee.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/abstract/document/9112360" target="_blank" rel="noopener">View paper</a></p>
+              <p>In this article, we study a constrained optimal control problem for an ensemble of control systems in a centralized setting. Each system evolves on a matrix Lie group, and must satisfy given state and control action constraints pointwise in time. In addition, the controller must be shared between the plants in the sense that at any time instant the control signal may be sent to only one plant while minimizing a given objective function. We provide first-order necessary conditions for optimality in the form of a Pontryagin maximum principle for such optimal control problems.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 6 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Effect of Progressive Tool Wear on the Evolution of the Dynamic Stability Limits in High-Speed Micromilling of Ti-6Al-4V</span>
+              <span class="pub-desc">J. Manuf. Sci. Eng., 2019.<br>Co‑authored with Rinku&nbsp;Mittal, Salil&nbsp;Kulkarni and Ramesh&nbsp;Singh.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://asmedigitalcollection.asme.org/manufacturingscience/article-abstract/141/11/111006/960545/Effect-of-Progressive-Tool-Wear-on-the-Evolution" target="_blank" rel="noopener">View paper</a></p>
+              <p>Micromilling can fabricate complex features in a wide range of engineering materials with an excellent finish but the limited flexural stiffness of the micro-end mill can result in catastrophic tool failure. This issue can be overcome by using high rotational speeds. Note that the combination of high rotational speeds and low flexural stiffness can induce process instability which is aggravated by the accelerated wear of the micro-tools at high speeds, specifically, for Ti-alloys. The effect of progressive tool wear on the stability has been investigated in micromilling of Ti-6Al-4V. For incorporating tool wear, the cutting force coefficients are modeled as a function of initial and instantaneous cutting edge radius (CER) and feed per tooth. The initial CER of the micro-tool is considered due to the inherent variability in the tool grinding process. A significant increase (85–114%) in the instantaneous CER is observed with an increase in the length of cut. A 2DOF time-domain model based on semi-discretization method has been used to characterize the evolution of stability limits with an increase in the length of cut. The progressive tool wear affects the stability limits along with the initial CER and the feed per tooth. At higher speeds (90,000–110,000 rpm), the effect of progressive tool wear is pronounced and the stability limits reduce by ∼30% in that range.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Journal 6 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Machine Learning Enabled Computational Screening of Inorganic Solid Electrolytes for Suppression of Dendrite Formation in Lithium Metal Anodes</span>
+              <span class="pub-desc">ACS Central Science, 2018.<br>Co‑authored with Zeeshan&nbsp;Ahmad, Tian&nbsp;Xie, Jefferey&nbsp;Grossman and Venkat&nbsp;Viswanathan.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://pubs.acs.org/doi/full/10.1021/acscentsci.8b00229" target="_blank" rel="noopener">View paper</a></p>
+              <p>Next generation batteries based on lithium (Li) metal anodes have been plagued by the dendritic electrodeposition of Li metal on the anode during cycling, resulting in short circuit and capacity loss. Suppression of dendritic growth through the use of solid electrolytes has emerged as one of the most promising strategies for enabling the use of Li metal anodes. We perform a computational screening of over 12 000 inorganic solids based on their ability to suppress dendrite initiation in contact with Li metal anode. Properties for mechanically isotropic and anisotropic interfaces that can be used in stability criteria for determining the propensity of dendrite initiation are usually obtained from computationally expensive first-principles methods. In order to obtain a large data set for screening, we use machine-learning models to predict the mechanical properties of several new solid electrolytes. The machine-learning models are trained on purely structural features of the material, which do not require any first-principles calculations. We train a graph convolutional neural network on the shear and bulk moduli because of the availability of a large training data set with low noise due to low uncertainty in their first-principles-calculated values. We use gradient boosting regressor and kernel ridge regression to train the elastic constants, where the choice of the model depends on the size of the training data and the noise that it can handle. The material stiffness is found to increase with an increase in mass density and ratio of Li and sublattice bond ionicity, and decrease with increase in volume per atom and sublattice electronegativity. Cross-validation/test performance suggests our models generalize well. We predict over 20 mechanically anisotropic interfaces between Li metal and four solid electrolytes which can be used to suppress dendrite growth. Our screened candidates are generally soft and highly anisotropic, and present opportunities for simultaneously obtaining dendrite suppression and high ionic conductivity in solid electrolytes.</p>
+            </div>
+          </details>
+        </li>
+        </ul>
+      </div>
+
+      <!-- Conference publications -->
+      <div class="publication-section conference" id="conference">
+        <h3>Conference publications</h3>
+        <ul class="publications-list">
+        <!-- Conf 1 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">&alpha;‑RACER: Real‑Time Algorithm for Game‑Theoretic Motion Planning and Control in Autonomous Racing using Near‑Potential Function</span>
+              <span class="pub-desc">Learning for Decision and Control (L4DC), 2025.<br>Co‑authored with Dvij&nbsp;Kalaria and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://proceedings.mlr.press/v283/kalaria25a.html" target="_blank" rel="noopener">View paper</a></p>
+              <p>Autonomous racing extends beyond the challenge of controlling a racecar at its physical limits. Professional racers employ strategic maneuvers to outwit other competing opponents to secure victory. While modern control algorithms can achieve human-level performance by computing offline racing lines for single-car scenarios, research on real-time algorithms for multi-car autonomous racing is limited. To bridge this gap, we develop game-theoretic modeling framework that incorporates the competitive aspect of autonomous racing like overtaking and blocking through a novel policy parametrization, while operating the car at its limit. Furthermore, we propose an algorithmic approach to compute the (approximate) Nash equilibrium strategy, which represents the optimal approach in the presence of competing agents. Specifically, we introduce an algorithm inspired by recently introduced framework of dynamic near-potential function, enabling real-time computation of the Nash equilibrium. Our approach comprises two phases: offline and online. During the offline phase, we use simulated racing data to learn a near-potential function that approximates utility changes for agents. This function facilitates the online computation of approximate Nash equilibria by maximizing its value. We evaluate our method in a head-to-head 3-car racing scenario, demonstrating superior performance compared to several existing baselines.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 2 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Incentive‑Compatible Vertiport Reservation in Advanced Air Mobility: An Auction‑Based Approach</span>
+              <span class="pub-desc">Conference on Decision and Control (CDC), 2024.<br>Co‑authored with Pan‑Yang&nbsp;Su, Victoria&nbsp;Tuck and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/10886225?denied=" target="_blank" rel="noopener">View paper</a></p>
+              <p>The rise of advanced air mobility (AAM) is expected to become a multibillion-dollar industry in the near future. Market-based mechanisms are touted to be an integral part of AAM operations, which comprise heterogeneous operators with private valuations. In this work, we study the problem of designing a mechanism to coordinate the movement of electric vertical take-off and landing (eVTOL) aircraft, operated by multiple operators each having heterogeneous valuations associated with their fleet, between vertiports, while enforcing the arrival, departure, and parking constraints at vertiports. Particularly, we propose an incentive-compatible and individually rational vertiport reservation mechanism that maximizes a social welfare metric, which encapsulates the objective of maximizing the overall valuations of all operators while minimizing the congestion at vertiports. Additionally, we improve the computational tractability of designing the reservation mechanism by proposing a mixed binary linear programming approach that leverages the network flow structure.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 3 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Understanding the Impact of Coalitions between EV Charging Stations</span>
+              <span class="pub-desc">Conference on Decision and Control (CDC), 2024.<br>Co‑authored with Sukanya&nbsp;Kudva, Kshitij&nbsp;Kulkarni, Anil&nbsp;Aswani and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/10886418" target="_blank" rel="noopener">View paper</a></p>
+              <p>The rapid growth of electric vehicles (EVs) is driving the expansion of charging infrastructure globally. As charging stations become ubiquitous, their substantial electricity consumption can influence grid operation and electricity pricing. Naturally, some groups of charging stations, which could be jointly operated by a company, may coordinate to decide their charging profile. While coordination among all charging stations is ideal, it is unclear if coordination of some charging stations is better than no coordination. In this paper, we analyze this intermediate regime between no and full coordination of charging stations. We model EV charging as a non-cooperative aggregative game, where each station’s cost is determined by both monetary payments tied to reactive electricity prices on the grid and its sensitivity to deviations from a desired charging profile. We consider a solution concept that we call C-Nash equilibrium, which is tied to a coalition C of charging stations coordinating to reduce their costs. We provide sufficient conditions, in terms of the demand and sensitivity of charging stations, to determine when independent (aka uncoordinated) operation of charging stations could result in lower overall costs to charging stations, coalition and charging stations outside the coalition. Somewhat counter to common intuition, we show numerical instances where allowing charging stations to operate independently is better than coordinating a subset of stations as a coalition. Jointly, these results provide operators of charging stations insights into how to coordinate their charging behavior, and open several research directions.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 3 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Follower Agnostic Learning in Stackelberg Games
+</span>
+              <span class="pub-desc">Conference on Decision and Control (CDC), 2024.<br>Co‑authored with James&nbsp;Cheng, Shankar&nbsp;Sastry, Lillian&nbsp;Ratliff and Eric&nbsp;Mazumdar.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/10885984" target="_blank" rel="noopener">View paper</a></p>
+              <p>In this paper, we present an efficient algorithm to solve online Stackelberg games, featuring multiple followers, in a follower-agnostic manner. Unlike previous works, our approach works even when leader has no knowledge about the followers’ utility functions, strategy space or learning algorithm. Our algorithm introduces a unique gradient estimator, leveraging specially designed strategies to probe followers. In a departure from traditional assumptions of optimal play, we model followers’ responses using a convergent adaptation rule, allowing for realistic and dynamic interactions. The leader constructs the gradient estimator solely based on observations of followers’ actions. We provide both non-asymptotic convergence rates to stationary points of the leader’s objective and demonstrate asymptotic convergence to a local Stackelberg equilibrium. To validate the effectiveness of our algorithm, we use this algorithm to solve the problem of incentive design on a largescale transportation network, showcasing its robustness even when the leader lacks access to followers’ demand information.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 4 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Dynamic Tolling in Arc‑based Traffic Assignment Models</span>
+              <span class="pub-desc">Allerton Conference on Communication, Control and Computing, 2023.<br>Co‑authored with Chih‑Yuan&nbsp;Chiu, Pan‑Yang&nbsp;Su and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/10313516" target="_blank" rel="noopener">View paper</a></p>
+              <p>Tolling in traffic networks offers a popular measure to minimize overall congestion. Existing toll designs primarily focus on congestion in route-based traffic assignment models (TAMs), in which travelers make a single route selection from source to destination. However, these models do not reflect real-world traveler decisions because they preclude deviations from a chosen route, and because the enumeration of all routes is computationally expensive. To address these limitations, our work focuses on arc-based TAMs, in which travelers sequentially select individual arcs (or edges) on the network to reach their destination. We first demonstrate that marginal pricing, a tolling scheme commonly used in route-based TAMs, also achieves socially optimal congestion levels in our arc-based formulation. Then, we use perturbed best response dynamics to model the evolution of travelers’ arc selection preferences over time, and a marginal pricing scheme to capture the social planner’s adaptive toll updates in response. We prove that our adaptive learning and marginal pricing dynamics converge to a neighborhood of the socially optimal loads and tolls. We then present empirical results that verify our theoretical claims.
+</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Arc-Based Traffic Assignment: Equilibrium Characterization and Learning
+</span>
+              <span class="pub-desc">Conference on Decision and Control (CDC), 2023.<br>Co‑authored with Chih‑Yuan&nbsp;Chiu, Pan‑Yang&nbsp;Su and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/10384151?denied=" target="_blank" rel="noopener">View paper</a></p>
+              <p>Arc-based traffic assignment models (TAMs) are a popular framework for modeling traffic network congestion generated by self-interested travelers who sequentially select arcs based on their perceived latency on the network. However, existing arc-based TAMs either assign travelers to cyclic paths, or do not extend to networks with bidirectional arcs (edges) between nodes. To overcome these difficulties, we propose a new modeling framework for stochastic arc-based TAMs. Given a traffic network with bidirectional arcs, we replicate its arcs and nodes to construct a directed acyclic graph (DAG), which we call the Condensed DAG (CoDAG) representation. Self-interested travelers sequentially select arcs on the CoDAG representation to reach their destination. We show that the associated equilibrium flow, which we call the Condensed DAG equilibrium, exists, is unique, and can be characterized as a strictly convex optimization problem. Moreover, we propose a discrete-time dynamical system that captures a natural adaptation rule employed by self-interested travelers to learn about the emergent congestion on the network. We show that the arc flows generated by this adaptation rule converges to a neighborhood of Condensed DAG equilibrium. To our knowledge, our work is the first to study learning and adaptation in an arc-based TAM. Finally, we present numerical results that corroborate our theoretical results.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Competing Bandits in Time Varying Matching Markets</span>
+              <span class="pub-desc">Learning for Decision and Control (L4DC), 2023.<br>Co‑authored with Deepan&nbsp;Muthirayan, Pramod&nbsp;Khargonekar and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://proceedings.mlr.press/v201/gollapudi23a.html" target="_blank" rel="noopener">View paper</a></p>
+              <p>We study the problem of online learning in two-sided non-stationary matching markets, where
+the objective is to converge to a stable match. In particular, we consider the setting where one
+side of the market, the arms, has fixed known set of preferences over the other side, the players.
+While this problem has been studied when the players have fixed but unknown preferences, in this
+work we study the problem of how to learn when the preferences of the players are time varying
+and unknown. Our contribution is a methodology that can handle any type of preference structure
+and variation scenario. We show that, with the proposed algorithm, each player receives a uniform
+sub-linear regret of \(\tilde{\mathcal{O}}(L^{1/2}_T T^{1/2})\) up to the number of changes in the underlying preferences of the
+agents, \(L_T\). Therefore, we show that the optimal rates for single-agent learning can be achieved in
+spite of the competition up to a difference of a constant factor. We also discuss extensions of this
+algorithm to the case where the number of changes need not be known a priori.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Online Learning for Traffic Navigation in Congested Networks</span>
+              <span class="pub-desc">Algorithmic Learning Theory (ALT), 2023.<br>Co‑authored with Sreenivas&nbsp;Gollapudi, Kostas&nbsp;Kollias and Manxi&nbsp;Wu.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://proceedings.mlr.press/v201/gollapudi23a/gollapudi23a.pdf" target="_blank" rel="noopener">View paper (PMLR)</a></p>
+              <p>We develop an online learning algorithm for a navigation platform to route travelers in a congested
+network with multiple origin-destination (o-d) pairs while simultaneously learning unknown cost
+functions of road segments (edges) using the crowd-sourced data. The number of travel requests is
+randomly realized, and the travel time of each edge is stochastically distributed with the mean being
+a linear function that increases with the edge load (the number of travelers who take the edge). In
+each step of our algorithm, the platform updates the estimates of cost function parameters using
+the collected travel time data, and maintains a rectangular confidence interval of each parameter.
+The platform then routes travelers in the next step using an optimistic strategy based on the lower
+bound of the up-to-date confidence interval. The key aspects of our setting include (i) the size
+and the spatial distribution of collected travel time data depend on travelers’ routing strategies;
+(ii) we evaluate the regret of our algorithm for platforms with different objectives, ranging from
+minimizing the social cost to minimizing the individual cost of self-interested users. We prove that
+the regret upper bound of our algorithm is \(\mathcal{O}(\sqrt{T}\log(T)|E|)\), where \(T\) is the time horizon, and \(|E|) is the number of edges in the network. Furthermore, we show that the regret bound decreases
+as the number of travelers increases, which implies that the platform learns faster with a larger
+user population. Finally, we implement our algorithm on the network of New York City, and
+demonstrate the efficacy of the proposed algorithm.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Inducing Social Optimality in Games via Adaptive Incentive Design
+</span>
+              <span class="pub-desc">Conference on Decision and Control (CDC), 2022.<br>Co‑authored with Kshitij&nbsp;Kulkarni, Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/9992685" target="_blank" rel="noopener">View paper</a></p>
+              <p>How can a social planner adaptively incentivize selfish agents who are learning in a strategic environment to induce a socially optimal outcome in the long run? We propose a two-timescale learning dynamics to answer this question in games. In our learning dynamics, players adopt a class of learning rules to update their strategies at a faster timescale, while a social planner updates the incentive mechanism at a slower timescale. In particular, the update of the incentive mechanism is based on each player’s externality, which is evaluated as the difference between the player’s marginal cost and the society’s marginal cost in each time step. We show that any fixed point of our learning dynamics corresponds to the optimal incentive mechanism such that the corresponding Nash equilibrium also achieves social optimality. We also provide sufficient conditions for the learning dynamics to converge to a fixed point so that the adaptive incentive mechanism eventually induces a socially optimal outcome. Finally, as an example, we demonstrate that the sufficient conditions for convergence are satisfied in Cournot competition with finite players.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Decentralized, communication-and coordination-free learning in structured matching markets</span>
+              <span class="pub-desc"> International Conference on Neural Information Processing Systems (NeuRIPS), 2022.<br>Co‑authored with Shankar&nbsp;Sastry and Eric&nbsp;Mazumdar.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://dl.acm.org/doi/10.5555/3600270.3601367" target="_blank" rel="noopener">View paper</a></p>
+              <p>We study the problem of online learning in competitive settings in the context of two-sided matching markets. In particular, one side of the market, the agents, must learn about their preferences over the other side, the firms, through repeated interaction while competing with other agents for successful matches. We propose a class of decentralized, communication-and coordination-free algorithms that agents can use to reach to their stable match in structured matching markets. In contrast to prior works, the proposed algorithms make decisions based solely on an agent's own history of play and requires no foreknowledge of the firms' preferences. Our algorithms are constructed by splitting up the statistical problem of learning one's preferences, from noisy observations, from the problem of competing for firms. We show that under realistic structural assumptions on the underlying preferences of the agents and firms, the proposed algorithms incur a regret which grows at most logarithmically in the time horizon. However, we note that in the worst case, it may grow exponentially in the size of the market.</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Dynamic Tolling for Inducing Socially Optimal Traffic Loads
+</span>
+              <span class="pub-desc">American Control Conference (ACC), 2022.<br>Co‑authored with Kshitij&nbsp;Kulkarni, Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/document/9867193" target="_blank" rel="noopener">View paper</a></p>
+              <p>How to design tolls that induce socially optimal traffic loads with dynamically arriving travelers who make selfish routing decisions? We propose a two-timescale discrete-time stochastic dynamics that adaptively adjusts the toll prices on a parallel link network while accounting for the updates of traffic loads induced by the incoming and outgoing travelers and their route choices. The updates of loads and tolls in our dynamics have three key features: (i) The total demand of incoming and outgoing travelers is stochastically realized; (ii) Travelers are myopic and selfish in that they choose routes according to a perturbed best response given the current latency and tolls on parallel links; (iii) The update of tolls is at a slower timescale as compared to the the update of loads. We show that the loads and the tolls eventually concentrate in a neighborhood of the fixed point, which corresponds to the socially optimal load and toll price. Moreover, the fixed point load is also a stochastic user equilibrium with respect to the toll price. Our results can be useful for traffic authorities to efficiently manage traffic loads in response to the arrival and departure of travelers.
+</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Zeroth-Order Methods for Convex-Concave Min-max Problems: Applications to Decision-Dependent Risk Minimization
+</span>
+              <span class="pub-desc"> International Conference on Artificial Intelligence and Statistics (AISTATS), 2022.<br>Co‑authored with Chih-Yuan&nbsp;Chiu, Eric&nbsp;Mazumdar, Shankar&nbsp;Sastry and Lillian&nbsp;Ratliff.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://proceedings.mlr.press/v151/maheshwari22a.html" target="_blank" rel="noopener">View paper</a></p>
+              <p>Min-max optimization is emerging as a key framework for analyzing problems of robustness to strategically and adversarially generated data. We propose the random reshuffling-based gradient-free Optimistic Gradient Descent-Ascent algorithm for solving convex-concave min-max problems with finite sum structure. We prove that the algorithm enjoys the same convergence rate as that of zeroth-order algorithms for convex minimization problems. We deploy the algorithm to solve the distributionally robust strategic classification problem, where gradient information is not readily available, by reformulating the latter into a finite dimensional convex concave min-max problem. Through illustrative simulations, we observe that our proposed approach learns models that are simultaneously robust against adversarial distribution shifts and strategic decisions from the data sources, and outperforms existing methods from the strategic classification literature.
+</p>
+            </div>
+          </details>
+        </li>
+        <!-- Conf 5 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Round-robin temporal scheduling of exponentially stabilizing controllers
+
+</span>
+              <span class="pub-desc"> Asian Control Conference (AsCC), 2019.<br>Co‑authored with Sukumar&nbsp;Srikant and Debasish&nbsp;Chatterjee.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://ieeexplore.ieee.org/abstract/document/8765083" target="_blank" rel="noopener">View paper</a></p>
+              <p>We study the behavior of a control-affine nonlinear system under periodic switching of the active control channel. The periodic switching between the control channels is implemented in a round-robin fashion. We claim that if a globally exponentially stabilizing feedback controller is sparsified using the round-robin scheme and the control action to each channel is scaled appropriately, then the resulting system is stabilized. For numerical proof of concept, we illustrate the effect of such sparsification on a linearized model of a coupled inverted pendulum - simple harmonic oscillator system.
+</p>
+            </div>
+          </details>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Teaching Section -->
+  <section id="teaching">
+    <h2>Teaching Experience</h2>
+    <div class="section-content">
+      <p>I am fortunate to have contributed to teaching and content creation in the following courses:</p>
+      <h3>As Instructor</h3>
+      <ul>
+        <li><strong>Seminars on Learning and Incentive Design in Dynamic Multi‑Agent Autonomous Systems</strong>, Johns Hopkins University (Fall&nbsp;2025).</li>
+        <li><strong>Learning Enabled Multi‑Agent Systems</strong>, University of California, Berkeley (Spring&nbsp;2025).</li>
+        <li><strong>Computational Approaches for Games and Incentive Design</strong>, University of California, Berkeley (Fall&nbsp;2023).</li>
+      </ul>
+      <h3>As Teaching Assistant</h3>
+      <ul>
+        <li>Optimization Models in Engineering</a>, University of California, Berkeley (Fall&nbsp;2023).</li>
+        <li>Design of Societal Scale Systems: Games, Incentives, Adaptation and Learning</a>, University of California, Berkeley (Spring&nbsp;2022).</li>
+        <li>Linear Systems Theory, University of California, Berkeley (Fall&nbsp;2021).</li>
+        <li>Introduction to Numerical Analysis, IIT&nbsp;Bombay (Spring&nbsp;2018 and Summer&nbsp;2018).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="section-content">
+      <p>Feel free to reach out if you are interested in collaborating, advising or co‑advising opportunities.</p>
+      <p>Email: <a>chinmay_maheshwari@jhu.edu</a></p>
+      <p>Office: S619, Wyman Park Building, Baltimore, MD</p>
+      <p>
+        <a href="https://scholar.google.com/citations?hl=en&user=8GDPQboAAAAJ&view_op=list_works&sortby=pubdate">Google&nbsp;Scholar</a> |
+        <a href="https://orcid.org/0000-0003-3596-2851">ORCID</a>|
+        <a href="https://www.researchgate.net/profile/Chinmay-Maheshwari-2">Research Gate</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025&nbsp;Chinmay&nbsp;Maheshwari
+  </footer>
+
+  <!-- Script to enable filtering of publication sections based on the dropdown selection -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const filterSelect = document.getElementById('pub-filter');
+      if (filterSelect) {
+        const sections = document.querySelectorAll('.publication-section');
+        // On change of selection, toggle visibility of sections
+        filterSelect.addEventListener('change', function () {
+          const selected = filterSelect.value;
+          sections.forEach(function (section) {
+            // Show all sections if 'all' is selected; otherwise show only the section with matching class
+            if (selected === 'all' || section.classList.contains(selected)) {
+              section.style.display = '';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
