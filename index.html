@@ -274,11 +274,11 @@
   <section id="about">
     <h2>About Me</h2>
     <div class="section-content">
-      <p>I am an Assistant Professor in the Department of Electrical and Computer Engineering at Johns Hopkins University. I am also a member of the Data Science and AI Institute. I obtained my PhD in Electrical Engineering and Computer Sciences from the University of California, Berkeley in 2025, where I was advised by <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/sastry.html">Prof.&nbsp;Shankar&nbsp;Sastry</a>. I completed my undergraduate studies (B.Tech and M.Tech) at the Indian Institute of Technology (IIT) Bombay in 2019, where I received the Institute Academic Medal. I was selected as an <a href="https://cps-vo.org/group/CPSRisingStarsWorkshop25">NSF CPS Rising Star in 2025</a> and received the <a href="https://www2.eecs.berkeley.edu/Students/Awards/146/">Lotfi&nbsp;A.&nbsp;Zadeh Prize</a> in 2025.</p>
+      <p>I am an Assistant Professor in the Department of Electrical and Computer Engineering at Johns Hopkins University. I hold a secondary appointment in Applied Mathematics and Statistics and am affiliated with the Data Science and AI Institute and the Laboratory for Computational Sensing and Robotics. I obtained my PhD in Electrical Engineering and Computer Sciences from the University of California, Berkeley in 2025, where I was advised by <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/sastry.html">Prof.&nbsp;Shankar&nbsp;Sastry</a>. I completed my undergraduate studies (B.Tech and M.Tech) at the Indian Institute of Technology (IIT) Bombay in 2019, where I received the Institute Academic Medal. I was selected as an <a href="https://cps-vo.org/group/CPSRisingStarsWorkshop25">NSF CPS Rising Star in 2025</a> and received the <a href="https://www2.eecs.berkeley.edu/Students/Awards/146/">Lotfi&nbsp;A.&nbsp;Zadeh Prize</a> in 2025.</p>
       <h3 class="announcement-blink">Announcements</h3>
       <ul>
         <li><strong>Seminar series:</strong> We organize a weekly seminar series on Learning‑Enabled Multi‑Agent Systems (LEMAS). This series brings together researchers working at the forefront of learning and incentive design in multi‑agent systems. Talks occur both in person and livestreamed over Zoom. If you are interested in joining the email list, please sign up on the <a href="https://sites.google.com/berkeley.edu/lemas-seminar">seminar website</a>.</li>
-        <li><strong>Prospective PhD students:</strong> I will be recruiting PhD students for Spring and Fall&nbsp;2026. I am looking for motivated students with strong mathematical backgrounds and programming skills who are interested in the theoretical and algorithmic foundations of learning and incentive design in dynamic multi‑agent autonomous systems with applications in domains such as mobility, autonomous robotics and energy systems. If you are interested, please reach out with a brief description of your background and research interests, along with a copy of your CV and transcript.</li>
+        <li><strong>Prospective PhD students:</strong> I am looking for motivated students with strong mathematical backgrounds and programming skills who are interested in the theoretical and algorithmic foundations of learning and incentive design in dynamic multi‑agent autonomous systems with applications in domains such as mobility, autonomous robotics and energy systems. If you are interested, please reach out with a brief description of your background and research interests, along with a copy of your CV and transcript.</li>
         <li><strong>Existing JHU students:</strong> If you are a current student at Johns Hopkins University and are interested in collaborating, advising or co‑advising opportunities, please contact me.</li>
       </ul>
     </div>
@@ -318,6 +318,19 @@
         <h3>Under review</h3>
         <ul class="publications-list">
         <!-- Journal 1 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">NePPO: Near-Potential Policy Optimization for General-Sum Multi-Agent Reinforcement Learning
+</span>
+              <span class="pub-desc">Co‑authored with Addison&nbsp;Kalanther, Sanika&nbsp;Bharvirkar and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://arxiv.org/pdf/2603.06977" target="_blank" rel="noopener">View paper</a></p>
+              <p> <b>Abstract:</b> Multi-agent reinforcement learning (MARL) is increasingly used to design learning-enabled agents that interact in shared environments. However, training MARL algorithms in general-sum games remains challenging: learning dynamics can become unstable, and convergence guarantees typically hold only in restricted settings such as two-player zero-sum or fully cooperative games. Moreover, when agents have heterogeneous and potentially conflicting preferences, it is unclear what system-level objective should guide learning. In this paper, we propose a new MARL pipeline called Near-Potential Policy Optimization (NePPO) for computing approximate Nash equilibria in mixed cooperative--competitive environments. The core idea is to learn a player-independent potential function such that the Nash equilibrium of a cooperative game with this potential as the common utility approximates a Nash equilibrium of the original game. To this end, we introduce a novel MARL objective such that minimizing this objective yields the best possible potential function candidate and consequently an approximate Nash equilibrium of the original game. We develop an algorithmic pipeline that minimizes this objective using zeroth-order gradient descent and returns an approximate Nash equilibrium policy. We empirically show the superior performance of this approach compared to popular baselines such as MAPPO, IPPO and MADDPG.</p>
+            </div>
+          </details>
+        </li>
         <li class="publication-item">
           <details>
             <summary>
@@ -485,6 +498,18 @@ Our results further show that pricing schemes charging differentiated prices to 
         <h3>Conference publications</h3>
         <ul class="publications-list">
         <!-- Conf 1 -->
+        <li class="publication-item">
+          <details>
+            <summary>
+              <span class="pub-title">Game-to-Real Gap: Quantifying the Effect of Model Misspecification in Network Games</span>
+              <span class="pub-desc">American Control Conference (ACC), 2026.<br>Co‑authored with Bryce&nbsp;Ferguson, Manxi&nbsp;Wu and Shankar&nbsp;Sastry.</span>
+            </summary>
+            <div class="abstract">
+              <p><a href="https://arxiv.org/pdf/2601.16367" target="_blank" rel="noopener">View paper</a></p>
+              <p> <b>Abstract:</b>  Game-theoretic models and solution concepts provide rigorous tools for predicting collective behavior in multi-agent systems. In practice, however, different agents may rely on different game-theoretic models to design their strategies. As a result, when these heterogeneous models interact, the realized outcome can deviate substantially from the outcome each agent expects based on its own local model. In this work, we introduce the game-to-real gap, a new metric that quantifies the impact of such model misspecification in multi-agent environments. The game-to-real gap is defined as the difference between the utility an agent actually obtains in the multi-agent environment (where other agents may have misspecified models) and the utility it expects under its own game model. Focusing on quadratic network games, we show that misspecifications in either (i) the external shock or (ii) the player interaction network can lead to arbitrarily large game-to-real gaps. We further develop novel network centrality measures that allow exact evaluation of this gap in quadratic network games. Our analysis reveals that standard network centrality measures fail to capture the effects of model misspecification, underscoring the need for new structural metrics that account for this limitation. Finally, through illustrative numerical experiments, we show that existing centrality measures in network games may provide a counterintuitive understanding of the impact of model misspecification.</p>
+            </div>
+          </details>
+        </li>
         <li class="publication-item">
           <details>
             <summary>
